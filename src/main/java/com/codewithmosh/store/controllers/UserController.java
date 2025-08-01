@@ -1,5 +1,6 @@
 package com.codewithmosh.store.controllers;
 
+import com.codewithmosh.store.dtos.RegisterUserRequestDto;
 import com.codewithmosh.store.dtos.UserDto;
 import com.codewithmosh.store.entities.User;
 import com.codewithmosh.store.mappers.UserMapper;
@@ -21,7 +22,10 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public Iterable<UserDto> getAllUsers(@RequestParam(required = false, defaultValue = "", name = "sort") String sortBy){      // good practice to set the name to be the same as the query key: sort, just so in case we decide in the future to rename our parameter, the code doesnt break
+    public Iterable<UserDto> getAllUsers( @RequestParam(required = false, defaultValue = "", name = "sort") String sortBy){      // good practice to set the name to be the same as the query key: sort, just so in case we decide in the future to rename our parameter, the code doesnt break
+
+        //@RequestHeader(required = false, name = "x-auth-token") String authToken,
+        //System.out.println(authToken);
 
         if(!Set.of("name","email").contains(sortBy)){     // set of valid values; does this contain the sortBy argument?
             sortBy = "name";
@@ -44,6 +48,11 @@ public class UserController {
         //var userDto = new UserDto(user.getId(), user.getName(), user.getEmail());
 
         return ResponseEntity.ok(userMapper.toDto(user));     // returns a Response entity with the status of OK 200 and the user DTO as well
+    }
+
+    @PostMapping
+    public UserDto createUser(@RequestBody RegisterUserRequestDto request){
+        return null;
     }
 
 
